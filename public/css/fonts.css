@@ -1,0 +1,9 @@
+@font-face {
+    font-family:"Eurostile";
+    src: url("../fonts/eurostile.ttf") /* TTF file for CSS3 browsers */
+}
+
+@font-face {
+    font-family:"Miedinger";
+    src: url("../fonts/Miedinger.ttf") /* TTF file for CSS3 browsers */
+}
