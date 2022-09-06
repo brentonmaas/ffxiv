@@ -5411,7 +5411,7 @@ if (document.getElementById('layouts_login')) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Menu_Main)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -5437,6 +5437,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -5452,26 +5454,42 @@ var Menu_Main = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, Menu_Main);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "showRegistrationForm", function () {
+      console.log('mooo');
+    });
+
     _this.state = {
       items: [{
-        text: "LOGIN"
+        text: "LOGIN",
+        click: _this.showLoginForm.bind(_assertThisInitialized(_this))
       }, {
-        text: "REGISTER"
+        text: "REGISTER",
+        click: _this.showRegistrationForm.bind(_assertThisInitialized(_this))
       }]
     };
     return _this;
   }
 
   _createClass(Menu_Main, [{
+    key: "showLoginForm",
+    value: function showLoginForm() {}
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "menu-main",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "menu-main-item",
+          onClick: this.state.items[0].click,
           children: this.state.items[0].text
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "menu-main-item",
+          onClick: function onClick() {
+            return _this2.showRegistrationForm();
+          },
           children: this.state.items[1].text
         })]
       });
@@ -5481,7 +5499,7 @@ var Menu_Main = /*#__PURE__*/function (_Component) {
   return Menu_Main;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu_Main);
 
 /***/ }),
 
