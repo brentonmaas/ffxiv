@@ -16,7 +16,27 @@
     cursor:pointer;
 }
 
-.menu-main-item:hover {
+.menu-main-item-hovered {
+    font-family:Miedinger;
     color:#eeeee6;
+    font-size:20px;
+    letter-spacing:2px;
     text-shadow: 0 0 2px #93876c;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu-main-cursor-container
+{
+    height:30px;
+    width:30px;
+    position:absolute;
+    top: 0px;
+    left: 105px;
+}
+
+.menu-main-cursor
+{
+    height:30px;
+    width:30px;
 }

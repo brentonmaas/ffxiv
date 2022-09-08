@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FFXIV DND</title>
 
+
     <!-- Scripts -->
     {!! App::make('App\Framework\Autoloader')->loadJS() !!}
 
@@ -14,7 +15,7 @@
 
 </head>
 
-<body style="height:100%" onload="init()">
+<body style="height:100%" onload="init('welcome')">
 
 <div id="layout_container" class="layout-container">
 
