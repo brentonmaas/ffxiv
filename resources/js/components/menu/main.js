@@ -21,7 +21,7 @@ export default class Menu_Main extends Component {
     render() {
         return (
             <div className="menu-main">
-                <div onClick={this.handleClick} className="menu-main-item">{this.state.items[0].text}</div>
+                <div className="menu-main-item">{this.state.items[0].text}</div>
                 <div className="menu-main-item">{this.state.items[1].text}</div>
             </div>
 
