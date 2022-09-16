@@ -13,14 +13,17 @@
     <!-- Styles -->
     {!! App::make('App\Framework\Autoloader')->loadCSS() !!}
 
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/561a940732.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body style="height:100%" onload="init('welcome')">
 
-<div id="layout_container" class="layout-container">
+<div id="page_container" class="page-container">
 
     <!-- React root DOM -->
-    <div id="layouts_login" class="h-100">
+    <div id="page_login" class="h-100">
     </div>
 
 </div>

@@ -15,6 +15,8 @@ mix.js('resources/js/app.js', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps()
+    .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
     .postCss('resources/css/app.css', 'public/css', [
+
         //
     ]);

@@ -16,7 +16,7 @@ function init(blade)
 
 function initLayout()
 {
-    let layout = $('#layout_container');
+    let layout = $('#page_container');
 
     let height = window.innerHeight;
 
@@ -25,43 +25,50 @@ function initLayout()
 
 function initWelcome()
 {
-    let current_menu_index = window.main_menu.state.selected;
+    MAIN_MENU = window.main_menu;
+    let current_menu_index = MAIN_MENU.state.selected;
     let new_menu_index = 0;
     let option_id = '';
 
     window.onkeydown = function(event) {
-        switch(event.code)
+
+        if(MAIN_MENU.state.display)
         {
-            case 'ArrowUp':
+            switch(event.code)
             {
-                new_menu_index = current_menu_index - 1;
-                if(new_menu_index < 0)
+                case 'ArrowUp':
                 {
-                    new_menu_index = 0;
+                    new_menu_index = current_menu_index - 1;
+                    if(new_menu_index < 0)
+                    {
+                        new_menu_index = 0;
+                    }
+
+                    option_id = MAIN_MENU.state.items[new_menu_index].id;
+                    MAIN_MENU.setCursorPosition(option_id);
+
+                    break;
                 }
-
-                option_id = window.main_menu.state.items[new_menu_index].id;
-                window.main_menu.setCursorPosition(option_id);
-
-                break;
-            }
-            case 'ArrowDown':
-            {
-                new_menu_index = current_menu_index + 1;
-                if(new_menu_index >= window.main_menu.state.items.length)
+                case 'ArrowDown':
                 {
-                    new_menu_index = window.main_menu.state.items.length - 1;
+                    new_menu_index = current_menu_index + 1;
+                    if(new_menu_index >= MAIN_MENU.state.items.length)
+                    {
+                        new_menu_index = MAIN_MENU.state.items.length - 1;
+                    }
+
+                    option_id = MAIN_MENU.state.items[new_menu_index].id;
+                    MAIN_MENU.setCursorPosition(option_id);
+
+                    break;
                 }
-
-                option_id = window.main_menu.state.items[new_menu_index].id;
-                window.main_menu.setCursorPosition(option_id);
-
-                break;
-            }
-            case 'Enter':
-            {
-                break;
+                case 'Enter':
+                {
+                    MAIN_MENU.selectMenuItem(new_menu_index);
+                    break;
+                }
             }
         }
+
     };
 }

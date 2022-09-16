@@ -19,10 +19,20 @@ class Menu_Main extends Component {
                 click: this.showRegistrationForm.bind(this),
                 mouseover: this.setCursorPosition.bind(this, 'menu-main-item-register')
             }],
-            selected: 0
+            selected: 0,
+            display: true,
         };
 
+        for(let index in props)
+        {
+            this.state[index] = props[index];
+        }
+
         window.main_menu = this;
+    }
+
+    selectMenuItem(option_index) {
+        this.state.items[option_index].click();
     }
 
     setCursorPosition(option_id) {
@@ -78,12 +88,29 @@ class Menu_Main extends Component {
         audio.play();
     }
 
+    playMenuSelectEffect() {
+        const audio = document.getElementById('menu-main-select');
+        audio.play();
+    }
+
     showLoginForm() {
 
     }
 
     showRegistrationForm() {
-        console.log('mooo');
+        this.playMenuSelectEffect();
+        this.hideMenu();
+        $('#registration-window').fadeIn();
+    }
+
+    hideMenu() {
+        this.state.display = false;
+        $('#main-menu').hide();
+    }
+
+    showMenu() {
+        this.state.display = true;
+        $('#main-menu').show();
     }
 
     render() {
@@ -91,7 +118,7 @@ class Menu_Main extends Component {
         let items = this.state.items;
 
         return (
-            <div className="menu-main">
+            <div id="main-menu" className="menu-main">
                 {items.map(function(item, i){
                     return (<div key={i}
                                  id={item.id}
@@ -103,7 +130,11 @@ class Menu_Main extends Component {
                 <audio id="menu-main-switch-cursor">
                     <source src="/sound/menu/cursor_move.mp3"></source>
                 </audio>
+                <audio id="menu-main-select">
+                    <source src="/sound/menu/menu_select.mp3"></source>
+                </audio>
             </div>
+
         );
     }
 }
