@@ -1,3 +1,18 @@
+.button {
+    background-image: linear-gradient(#4569e3, #293d81);
+    color: #fff;
+    border: solid 1px #203066;
+    border-radius: 6px;
+    font-size:14px;
+    padding: 3px 5px;
+}
+
+.button:hover {
+    background-image: linear-gradient(#fdc084, #bd8b73);
+    border:solid 1px #ac7f6f;
+    color:#fff;
+}
+
 .button-window-container {
     z-index:1;
     position:absolute;

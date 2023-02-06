@@ -3,16 +3,17 @@ import Form_Control_Basic from "./basic";
 
 class Form_Control_Password extends Form_Control_Basic {
 
-    render() {
-        return (
-            <label className="form-control-basic">
-                <div className="form-control-label">{this.state.label+':'}</div>
-                <input type="password" name={this.state.id} id={this.state.id} className="form-control-input" defaultValue={this.state.value} />
-                <div className="form-control-additional">{this.state.additional}</div>
+    getControl() {
 
-                <div className="form-padding-row"></div>
-            </label>
-        );
+        let control;
+
+        let control_style = {
+            width: this.state.control_width
+        }
+
+        control = <input type="password" name={this.state.id} id={this.state.id} className="form-control-input" style={control_style} defaultValue={this.state.value} />
+
+        return control;
     }
 
 }

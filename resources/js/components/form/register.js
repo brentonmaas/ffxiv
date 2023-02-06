@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Form_Basic from "./basic";
 import Form_Control_Basic from "./control/basic";
 import Form_Control_Password from "./control/password";
+import Form_Control_Checkbox from "./control/checkbox";
 
 class Form_Register extends Form_Basic {
 
@@ -35,11 +36,12 @@ class Form_Register extends Form_Basic {
                     Dragons & Final Fantasy XIV digital content
                 </div>
                 <div className="form-padding-row"></div>
-                <Form_Control_Basic id={this.state.id+"-username"} label="Username" />
-                <Form_Control_Password id={this.state.id+"-password"} label="Password" />
-                <Form_Control_Password id={this.state.id+"-confirm-password"} label="Confirm Password" />
-                <Form_Control_Basic id={this.state.id+"-email"} label="Email" />
-                <input type="submit" value="Submit" />
+                <Form_Control_Basic id={this.state.id+"-username"} label="Username" required={true} />
+                <Form_Control_Password id={this.state.id+"-password"} label="Password" required={true} />
+                <Form_Control_Password id={this.state.id+"-confirm-password"} label="Confirm Password" required={true} />
+                <Form_Control_Basic id={this.state.id+"-email"} label="Email" required={true} />
+                <Form_Control_Checkbox id={this.state.id+"-can-email"} description_width="calc(100% - 23px)" hide_label={true} description=" I agree to receive emails from Magitek Terminal about new features, new products and newsletters. You can opt out at any time using the link provided within our emails." />
+                <input className="button" type="submit" value="Submit" />
             </form>
         );
     }

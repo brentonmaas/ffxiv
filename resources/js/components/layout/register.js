@@ -24,17 +24,17 @@ class Layout_Register extends Component {
         }
 
         const register_image_container_style = {
-            width: '400px',
+            width: '450px',
             height: '100%',
             display: 'inline-block'
         };
 
         const register_image_style = {
-            width: '400px',
+            width: '450px',
         };
 
         const register_form_container_style = {
-            width: 'calc(100% - 400px)',
+            width: 'calc(100% - 450px)',
             height: '100%',
             display: 'inline-block',
             verticalAlign: 'top'

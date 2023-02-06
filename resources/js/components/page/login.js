@@ -7,10 +7,20 @@ import Layout_Register from "../layout/register";
 
 function Page_Login() {
 
+    const heading_style = {
+        color: '#fff',
+        fontFamily: 'Miedinger',
+        position: 'absolute',
+        top: '10px',
+        left: '20px',
+        fontSize: '24px'
+    }
+
     return (
         <div className="container-fluid h-100 login-screen">
+            <div style={heading_style}>Magitek Terminal</div>
             <Menu_Main/>
-            <Container_Window id="registration-window" name="Registration Window" height="538px" width="900px" nopadding={true} onclose={showMainMenu} body={<Layout_Register />} />
+            <Container_Window id="registration-window" name="Registration Form" height="600px" width="1000px" nopadding={true} onclose={showMainMenu} body={<Layout_Register />} />
         </div>
     );
 }
