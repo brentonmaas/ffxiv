@@ -1,0 +1,21 @@
+.page-login {
+    background-image: url("../../../public/images/endwalker_dnd.png");
+    background-size: 100vw 100vh;
+}
+
+.page-login-heading {
+    color: #fff;
+    font-family: Miedinger;
+    position: relative;
+    top: 10px;
+    left: 5px;
+    font-size: 24px;
+    display: inline-block;
+    text-shadow: 2px 2px 2px #757575;
+    user-select: none;
+}
+
+.page-login-logo {
+    height: 54px;
+    display: inline-block;
+}

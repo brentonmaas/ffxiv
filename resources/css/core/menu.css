@@ -1,0 +1,15 @@
+.menu-core {
+    user-select: none;
+}
+
+.menu-core-item {
+    color:#333;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.menu-core-item-hovered {
+    color:#3856b9;
+    font-size:12px;
+    cursor:pointer;
+}

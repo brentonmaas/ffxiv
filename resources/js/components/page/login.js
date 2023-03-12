@@ -1,28 +1,42 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import Page from '../../core/page';
 import Menu_Main from "../menu/main";
-import Container_Window from "../container/window";
-import Form_Register from "../form/register";
-import Layout_Register from "../layout/register";
+import Window_Register from "../window/register";
+import '../../../css/page/login.css';
+import logo from '../../../../public/images/logo.png';
 
-function Page_Login() {
 
-    const heading_style = {
-        color: '#fff',
-        fontFamily: 'Miedinger',
-        position: 'absolute',
-        top: '10px',
-        left: '20px',
-        fontSize: '24px'
+class Page_Login extends Page {
+
+    constructor(props) {
+        super(props);
+
+        this.pageClass = 'login';
+
+        for(let index in props)
+        {
+            this[index] = props[index];
+        }
+
+        window.components.page.login = this;
     }
 
-    return (
-        <div className="container-fluid h-100 login-screen">
-            <div style={heading_style}>Magitek Terminal</div>
-            <Menu_Main/>
-            <Container_Window id="registration-window" name="Registration Form" height="600px" width="1000px" nopadding={true} onclose={showMainMenu} body={<Layout_Register />} />
-        </div>
-    );
+    getContent() {
+
+        const closeFunction = function() {
+            window.components.menu.main.enableMenu();
+        }
+
+        return(
+            <div>
+                <img src={logo} className="page-login-logo" alt="logo" />
+                <div className="page-login-heading">Magitek Terminal</div>
+                <Menu_Main/>
+                <Window_Register closeFunction={closeFunction}/>
+            </div>
+        );
+    }
 }
 
 export default Page_Login;

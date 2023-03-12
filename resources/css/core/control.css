@@ -1,0 +1,66 @@
+.control-core-container {
+    width: 100%;
+}
+
+.control-core-label {
+    color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
+}
+
+.control-core-base {
+    color: #fff;
+    display: inline-block;
+    width: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.control-core-input {
+    border: solid 1px #3856b9;
+    background-color: rgba(12.5,12.2,14.1,0.9);
+    color: #fff;
+    display: inline-block;
+    width: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.control-core-input-error {
+    border: solid 1px #e30f0f;
+}
+
+.control-core-description {
+    color: #fff;
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
+    padding-left: 5px;
+}
+
+.control-core-error {
+    width: 100%;
+    height: 24px;
+    color: #e30f0f;
+    font-size: 11px;
+}
+
+.control-core-password-strength-meter {
+    height: 100%;
+}
+
+.control-core-password-strength-meter-block {
+    display: inline-block;
+    height: 10px;
+    width: calc(20% - 5px);
+    background: #ccc;
+}
+
+.control-core-password-strength-meter-separator {
+    display: inline-block;
+    height: 10px;
+    width: 5px;
+}

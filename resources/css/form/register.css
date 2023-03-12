@@ -1,0 +1,15 @@
+.form-register-text {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+}
+
+.form-register-spacer {
+    height: 1px;
+    width: calc(100% - 60%);
+    background: linear-gradient(to right, #3856b9, #2173ce, #3856b9);
+    margin-top: 6px;
+    margin-bottom: 3px;
+    position: relative;
+    left: 30%;
+}

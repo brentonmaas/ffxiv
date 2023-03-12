@@ -1,0 +1,23 @@
+.layout-register{
+    width: 100%;
+    height: 100%;
+}
+
+.layout-register-image-container {
+    width: 450px;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.layout-register-image {
+    width: 450px;
+}
+
+.layout-register-form-container {
+    width: calc(100% - 450px);
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+}
