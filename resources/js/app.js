@@ -26,3 +26,4 @@ window.components = {
  */
 
 require('./components/page/login');
+

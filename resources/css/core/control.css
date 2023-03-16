@@ -48,19 +48,35 @@
     font-size: 11px;
 }
 
+.control-core-password-strength-container {
+    position: relative;
+}
+
 .control-core-password-strength-meter {
     height: 100%;
+    display: inline-block;
 }
 
 .control-core-password-strength-meter-block {
+    margin-top:3px;
+    margin-right:5px;
     display: inline-block;
-    height: 10px;
+    height: 5px;
     width: calc(20% - 5px);
-    background: #ccc;
+    background: #3856b9;
 }
 
-.control-core-password-strength-meter-separator {
+.control-core-password-strength-text {
     display: inline-block;
-    height: 10px;
-    width: 5px;
 }
+
+.control-core-password-popup {
+    position: absolute;
+    z-index: 1;
+    background: #3856b9;
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px;
+    bottom: 52px;
+}
+

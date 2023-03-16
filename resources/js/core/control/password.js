@@ -16,13 +16,19 @@ class Control_Password extends Control_Base {
                 id={this.id}
                 required={this.required}
                 className="control-core-input"
-                onFocus={() => this.setState({ meter: true})}
+                onFocus={() => this.setState({ meter: true, focused: true})}
+                onBlur={() => this.setState({ focused: false})}
                 onChange={this.handleChange.bind(this)}
                 style={control_style}
                 defaultValue={this.value} />
         );
     }
 
+    handleChange(e) {
+        this.state.value = e.target.value;
+        this.setState({ meter: true});
+        this.onChange(e);
+    }
 
     getError() {
 
@@ -43,52 +49,107 @@ class Control_Password extends Control_Base {
         }
 
         const passwordStrength = Object.values(passwordTracker).filter(value => value).length;
+        let passwordStrengthText = '';
+        let passwordColor = '#e30f0f';
+
+        switch(passwordStrength) {
+            case 0: {
+                passwordStrengthText = 'Invalid';
+                break;
+            }
+            case 1: {
+                passwordStrengthText = 'Very Weak';
+                break;
+            }
+            case 2: {
+                passwordStrengthText = 'Weak';
+                passwordColor = '#fea400';
+                break;
+            }
+            case 3: {
+                passwordStrengthText = 'Medium';
+                passwordColor = '#ffdb00';
+                break;
+            }
+            case 4: {
+                passwordStrengthText = 'Strong';
+                passwordColor = '#95c730';
+                break;
+            }
+            case 5: {
+                passwordStrengthText = 'Very Strong';
+                passwordColor = '#009821';
+                break;
+            }
+        }
+
+        let blocks = [];
+
+        for(let j = 0; j < 5; j++) {
+
+            let color = false;
+
+            if(j < passwordStrength) {
+                color = passwordColor;
+            }
+
+            let block = {};
+            if(color) {
+                block.style = {
+                    backgroundColor: color
+                };
+            }
+            else {
+                block.style = {};
+            }
+
+            blocks.push(block);
+        }
 
         const errorStyle = {
             paddingLeft: this.labelWidth
         }
 
-        let meterStyle = {
+        const meterStyle = {
             width: this.controlWidth
+        }
+
+        const textStyle = {
+            color: passwordColor
         }
 
         return (
             <div className="control-core-error" style={errorStyle}>
-                { this.state.meter && (
-                    <div>
+                { this.state.meter && this.showMeter && (
+                    <div className="control-core-password-strength-container">
                         <div className="control-core-password-strength-meter" style={meterStyle}>
-                            <div className="control-core-password-strength-meter-block"></div>
-                            <div className="control-core-password-strength-meter-separator"></div>
-
-                            <div className="control-core-password-strength-meter-block"></div>
-                            <div className="control-core-password-strength-meter-separator"></div>
-
-                            <div className="control-core-password-strength-meter-block"></div>
-                            <div className="control-core-password-strength-meter-separator"></div>
-
-                            <div className="control-core-password-strength-meter-block"></div>
-                            <div className="control-core-password-strength-meter-separator"></div>
-
-                            <div className="control-core-password-strength-meter-block"></div>
+                            {blocks.map(function(block, i){
+                                return (<div key={i} className="control-core-password-strength-meter-block" style={block.style} ></div>)
+                            }, this)}
                         </div>
-
+                        <div className="control-core-password-strength-text" style={textStyle}>{passwordStrengthText}</div>
+                        { this.state.focused && passwordStrength < 5 && (
+                            <div className="control-core-password-popup">
+                                Password must contain:
+                                {!passwordTracker.eightCharsOrGreater && 'At least 8 characters. '}
+                                {!passwordTracker.lowercase && 'A lower case letter. '}
+                                {!passwordTracker.uppercase && ('A upper case letter. ')}
+                                {!passwordTracker.number && 'A number. '}
+                                {!passwordTracker.specialChar && 'A Special character.'}
+                            </div>
+                        )}
                     </div>
                 )}
-
+                {!this.showMeter &&
+                    <div>
+                    {this.state.error}
+                    </div>
+                }
             </div>
         );
 
-        /**
-         * <div>
-         *                             {passwordStrength < 5 && 'Must contain '}
-         *                             {!passwordTracker.uppercase && 'uppercase, '}
-         *                             {!passwordTracker.lowercase && 'lowercase, '}
-         *                             {!passwordTracker.specialChar && 'special character, '}
-         *                             {!passwordTracker.number && 'number, '}
-         *                             {!passwordTracker.eightCharsOrGreater &&
-         *                                 'eight characters or more'}
-         *                         </div>
-         */
+
+
     }
 
 }

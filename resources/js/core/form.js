@@ -6,6 +6,7 @@ import Control_Base from "./control/base";
 import Control_Text from "./control/text";
 import Control_Password from "./control/password";
 import Control_Checkbox from "./control/checkbox";
+import Config from "../config";
 
 class Form extends Component {
 
@@ -22,16 +23,29 @@ class Form extends Component {
         this.content = '';
         this.fields = [];
         this.errors = {};
+        this.formData = {};
+        this.callback = function() {
+            //empty by default
+        }
 
         for(let index in props)
         {
             this[index] = props[index];
+        }
+
+        this.state = {
+            message: '',
+            error: false
         }
     }
 
     handleSubmit() {
 
         let result = this.validate();
+
+        if(result.success) {
+            this.postForm();
+        }
     }
 
     handleChange(field, e) {
@@ -39,7 +53,21 @@ class Form extends Component {
         for(let i in this.fields) {
 
             if(this.fields[i].id === field) {
-                this.fields[i].value = e.target.value;
+                switch(this.fields[i].type) {
+                    case 'checkbox': {
+                        if(e.target.checked) {
+                            this.fields[i].value = 1;
+                        }
+                        else {
+                            this.fields[i].value = 0;
+                        }
+                        break;
+                    }
+                    default: {
+                        this.fields[i].value = e.target.value;
+                        break;
+                    }
+                }
             }
         }
     }
@@ -62,8 +90,7 @@ class Form extends Component {
 
                 result.success = false;
                 result.errors.push(message);
-
-                fields[i].ref.current.setState({ error : message });
+                fields[i].ref.current.setState({ error : message, meter: true });
 
                 $('#' + this.id+"-"+fields[i].id).addClass('control-core-input-error');
             }
@@ -77,8 +104,78 @@ class Form extends Component {
         return result;
     }
 
+    prepData() {
+        let data = {};
+        let fields = this.fields;
+
+        for(let i in fields) {
+            if(fields[i].post) {
+
+                let index = fields[i].id;
+                index = index.replace(/-/g, '_');
+                data[index] = fields[i].value;
+            }
+        }
+
+        return data;
+    }
+
     postForm() {
 
+        let loader = this.getLoader();
+
+        this.setState({message: loader});
+
+        this.formData = this.prepData();
+        const handleResponse = this.handleResponse.bind(this);
+
+        axios.post(Config.url + '/api/register', this.formData)
+            .then(response => {
+                handleResponse(response, false);
+            })
+            .catch(error => {
+                if(error.response) {
+                    if (error.response.data.errors) {
+                        handleResponse(error.response.data.errors, true);
+                    }
+                }
+            });
+    }
+
+    handleResponse(response, error) {
+        if(error) {
+            this.setState({message: 'There were some errors on the form.', error: true});
+
+            let fields = this.fields;
+
+            for(let i in fields) {
+                for(let fieldIndex in response) {
+                    if (fields[i].id === fieldIndex) {
+
+                        let errors = response[fieldIndex];
+                        let message = '*';
+
+                        for(let j in errors) {
+                            message += ' ' + errors[j];
+                        }
+
+                        fields[i].ref.current.setState({error: message, meter: true});
+                        $('#' + this.id + "-" + fields[i].id).addClass('control-core-input-error');
+                    }
+                }
+            }
+        }
+        else {
+            this.setState({message: 'Submission Successful.', error: false});
+            debugger;
+            this.callback(response);
+        }
+    }
+
+    getLoader() {
+        return (
+            <div className="form-core-loader">Submitting...</div>
+        );
     }
 
     getFieldControl(field, key) {
@@ -196,8 +293,21 @@ class Form extends Component {
         );
     }
 
+    clearForm() {
+
+    }
+
     render() {
         let fields = this.fields;
+        let messageColor = '#009821';
+
+        if(this.state.error) {
+            messageColor = '#e30f0f';
+        }
+
+        const messageStyle = {
+            color: messageColor
+        }
 
         return (
             <form id={'form-' + this.id} onSubmit={this.handleSubmit.bind(this)}>
@@ -209,7 +319,10 @@ class Form extends Component {
                         fieldControl
                     );
                 }, this)}
-                <Button variant="primary" className="button-core" onClick={this.handleSubmit.bind(this)}>Submit</Button>
+                <div className="form-core-footer">
+                    <Button variant="primary" className="button-core" onClick={this.handleSubmit.bind(this)}>Submit</Button>
+                    <div className="form-core-message" style={messageStyle}>{this.state.message}</div>
+                </div>
             </form>
         );
     }

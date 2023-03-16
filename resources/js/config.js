@@ -3,6 +3,7 @@ class Config {
     constructor() {
 
         this.url = window.location.origin;
+
     }
 }
 

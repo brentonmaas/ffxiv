@@ -6,7 +6,6 @@ import Window_Register from "../window/register";
 import '../../../css/page/login.css';
 import logo from '../../../../public/images/logo.png';
 
-
 class Page_Login extends Page {
 
     constructor(props) {
@@ -41,6 +40,6 @@ class Page_Login extends Page {
 
 export default Page_Login;
 
-if (document.getElementById('page_login')) {
-    ReactDOM.render(<Page_Login />, document.getElementById('page_login'));
+if (document.getElementById('page')) {
+    ReactDOM.render(<Page_Login />, document.getElementById('page'));
 }

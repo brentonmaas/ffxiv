@@ -12,26 +12,39 @@ class Menu extends Component {
          * Example Item fields
          * @type [{id: int, index: string, text: string, mouseover: function, handler: function}]
          */
-        this.items = [];
         this.id = 'core';
         this.display = true;
+        this.active = true;
         this.menuClass = 'menu-core';
-        this.content ='';
 
         for(let index in props)
         {
             this[index] = props[index];
         }
+
+        this.state = {
+            error: null,
+            isLoaded: false,
+            items: []
+        };
+    }
+
+    disableMenu() {
+        this.active = false;
+    }
+
+    enableMenu() {
+        this.active = true;
     }
 
     itemClick(event) {
 
         let itemId = event.target.id;
 
-        for(let i in this.items) {
+        for(let i in this.state.items) {
 
-            if(itemId === 'menu-' + this.id +'-item-' + this.items[i].id) {
-                this.items[i].handler();
+            if(itemId === 'menu-' + this.id +'-item-' + this.state.items[i].id) {
+                this.state.items[i].handler();
             }
         }
     }
@@ -39,6 +52,22 @@ class Menu extends Component {
     itemMouseOver(event) {
 
         let itemId = event.target.id;
+        this.setMenuItemHovered(itemId);
+
+        let items = this.state.items;
+
+        for(let i in items) {
+
+            let currentItemId = 'menu-' + this.id + '-item-' + items[i].id;
+
+            if(currentItemId === itemId) {
+                items[i].mouseover();
+            }
+        }
+    }
+
+    setMenuItemHovered(itemId) {
+
         let menuClass = this.menuClass;
 
         $('div[id^="menu-' + this.id + '-item"]').each( function() {
@@ -52,30 +81,35 @@ class Menu extends Component {
                 item.removeClass(menuClass + '-item-hovered');
             }
         });
+    }
 
-        for(let i in this.items) {
-            if(itemId === 'menu-' + this.id +'-item-' + this.items[i].id) {
-                this.items[i].mouseover();
-            }
-        }
-
+    handleResponse(error) {
+        this.setState({error: error});
     }
 
     render() {
-        let items = this.items;
+        let content = this.getContent();
 
-        return (
-            <div id={"menu-" + this.id} className={this.menuClass}>
-                {items.map(function(item, i){
-                    return (<div key={i}
-                                 id={'menu-' + this.id + '-item-' + item.id}
-                                 className={this.menuClass + '-item'}
-                                 onMouseOver={this.itemMouseOver.bind(this)}
-                                 onClick={this.itemClick.bind(this)}>{item.text}</div>)
-                }, this)}
-                {this.content}
-            </div>
-        );
+        const { error, isLoaded, items } = this.state;
+
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div className="menu-main-loader">Loading...</div>;
+        } else {
+            return (
+                <div id={"menu-" + this.id} className={this.menuClass}>
+                    {items.map(function(item, i){
+                        return (<div key={i}
+                                     id={'menu-' + this.id + '-item-' + item.id}
+                                     className={this.menuClass + '-item'}
+                                     onMouseOver={this.itemMouseOver.bind(this)}
+                                     onClick={this.itemClick.bind(this)}>{item.text}</div>)
+                    }, this)}
+                    {content}
+                </div>
+            );
+        }
     }
 }
 

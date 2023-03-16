@@ -20,6 +20,20 @@ class MenuItemController extends Controller
     }
 
     /**
+     * Display a listing of the resource after applying filters
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request){
+
+        $filters = $request->all();
+        $menuItems = MenuItem::where($filters)->get();
+
+        return response()->json($menuItems);
+    }
+
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

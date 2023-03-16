@@ -1,19 +1,23 @@
+import React, {Component} from "react";
 import Menu from '../../core/menu';
 import cursor from '../../../../public/images/hand.gif';
 import '../../../css/menu/main.css';
-import React, {Component} from "react";
 import Config from '../../config';
 
-class Menu_Main extends Component {
+
+class Menu_Main extends Menu {
 
     constructor(props) {
         super(props);
 
         this.id = 'main';
         this.menuClass = 'menu-main';
+        this.display = true;
+        this.active = true;
+
+        //new class variables
         this.currentMenuIndex = 0;
         this.newMenuIndex = 0;
-        this.active = true;
 
         for(let index in props)
         {
@@ -21,6 +25,7 @@ class Menu_Main extends Component {
         }
 
         this.state = {
+            user: JSON.parse(localStorage.getItem('user').toString()),
             error: null,
             isLoaded: false,
             items: []
@@ -36,17 +41,50 @@ class Menu_Main extends Component {
     }
 
     componentDidMount() {
-        axios.get(Config.url + '/api/menu_item')
+
+        const handleResponse = this.handleResponse.bind(this);
+
+        let loggedIn = 0;
+
+        if(this.state.user) {
+            loggedIn = 1;
+        }
+
+        axios.get(Config.url + '/api/menu_item/filter', { params: { menu_id: 1, login_required: loggedIn }})
             .then(response => {
+
+                let items = response.data;
+
+                //bind events
+                for(let i in items) {
+                    //click event
+                    items[i].handler = this[items[i].handler].bind(this);
+                    //mouseover
+                    let itemId = 'menu-' + this.id +'-item-' + items[i].id;
+                    items[i].mouseover = this.setCursorPosition.bind(this, itemId, items[i].index);
+                }
+
                 this.setState({
-                    items: response.data,
+                    items: items,
                     isLoaded: true,
                 });
+
+                this.reset();
             })
             .catch(function (error) {
-                this.state.error = error;
+                handleResponse(error);
                 console.log(error);
-            })
+            });
+    }
+
+    reset() {
+        this.currentMenuIndex = 0;
+
+        let itemId = 'menu-' + this.id +'-item-' + this.state.items[this.currentMenuIndex].id;
+        this.setMenuItemHovered(itemId);
+
+        let index = this.state.items[this.currentMenuIndex].index;
+        this.setCursorPosition(itemId, index);
     }
 
     keyPressEvent(event) {
@@ -60,11 +98,11 @@ class Menu_Main extends Component {
 
                     if(this.newMenuIndex >= 0) {
 
-                        let id = this.state.items[this.newMenuIndex].id;
-                        this.setMenuItemHovered(id);
+                        let itemId = 'menu-' + this.id +'-item-' + this.state.items[this.newMenuIndex].id;
+                        this.setMenuItemHovered(itemId);
 
                         let index = this.state.items[this.newMenuIndex].index;
-                        this.setCursorPosition(index);
+                        this.setCursorPosition(itemId, index);
                         this.currentMenuIndex = this.newMenuIndex;
                     }
                     break;
@@ -74,11 +112,11 @@ class Menu_Main extends Component {
 
                     if(this.newMenuIndex < this.state.items.length) {
 
-                        let id = this.state.items[this.newMenuIndex].id;
-                        this.setMenuItemHovered(id);
+                        let itemId = 'menu-' + this.id +'-item-' + this.state.items[this.newMenuIndex].id;
+                        this.setMenuItemHovered(itemId);
 
                         let index = this.state.items[this.newMenuIndex].index;
-                        this.setCursorPosition(index);
+                        this.setCursorPosition(itemId, index);
                         this.currentMenuIndex = this.newMenuIndex;
                     }
                     break;
@@ -92,7 +130,7 @@ class Menu_Main extends Component {
     }
 
     selectMenuItem(option_index) {
-        this.items[option_index].click();
+        this.state.items[option_index].handler();
     }
 
     showLoginForm() {
@@ -105,12 +143,16 @@ class Menu_Main extends Component {
         $('#window-registration').fadeIn();
     }
 
-    disableMenu() {
-        this.active = false;
+    showCharacterSelection() {
+
     }
 
-    enableMenu() {
-        this.active = true;
+    createCharacter() {
+
+    }
+
+    logout() {
+
     }
 
     playMenuSwitchEffect() {
@@ -123,44 +165,21 @@ class Menu_Main extends Component {
         audio.play();
     }
 
-    setMenuItemHovered(id) {
+    setCursorPosition(itemId, index) {
 
-        let itemId = 'menu-' + this.id + '-item-' + id;
-        let menuClass = this.menuClass;
-
-        $('div[id^="menu-' + this.id + '-item"]').each( function() {
-            let item = $(this);
-
-            if (item.attr('id') === itemId) {
-                item.removeClass(menuClass + '-item');
-                item.addClass(menuClass + '-item-hovered');
-            } else {
-                item.addClass(menuClass + '-item');
-                item.removeClass(menuClass + '-item-hovered');
-            }
-        });
-    }
-
-    setCursorPosition(index) {
         let cursor = $('.menu-main-cursor-container');
+        let menuItem = $('#' + itemId);
 
-        switch(index) {
-            case 'login': {
-                cursor.css('top','0px');
-                cursor.css('left','105px');
-                break;
-            }
-            case 'register': {
-                cursor.css('top','32px');
-                cursor.css('left','70px');
-                break;
-            }
-        }
+        const offset = menuItem.offset();
+        let top = offset.top;
+        let left = offset.left - 40;
+
+        cursor.offset({ top: top, left: left});
 
         //Set currentMenuIndex
         for(let i in this.state.items) {
             if(index === this.state.items[i].index) {
-                this.currentMenuIndex = i;
+                this.currentMenuIndex = parseInt(i);
             }
         }
 
@@ -182,36 +201,7 @@ class Menu_Main extends Component {
         );
     }
 
-    render() {
-        let content = this.getContent();
 
-        const { error, isLoaded, items } = this.state;
-
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return <div className="menu-main-loader">Loading...</div>;
-        } else {
-            //bind events
-            for(let i in items) {
-
-                //click event
-                items[i].handler = this[items[i].handler].bind(this);
-
-                //mouseover
-                items[i].mouseover = this.setCursorPosition.bind(this, items[i].index);
-            }
-
-            return (
-                <Menu
-                    id={this.id}
-                    content={content}
-                    items={items}
-                    menuClass={this.menuClass}
-                />
-            );
-        }
-    }
 }
 
 export default Menu_Main;

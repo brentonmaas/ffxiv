@@ -2,6 +2,7 @@
     background-image: linear-gradient(#4569e3, #293d81);
     color: #fff;
     border: solid 1px #203066;
+    display: inline-block;
 }
 
 .button-core:hover {

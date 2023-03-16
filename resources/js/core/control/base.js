@@ -17,6 +17,7 @@ class Control_Base extends Component {
         this.hideDescription = false;
         this.required = false
         this.extraProps = {};
+        this.showMeter = true;
 
         for(let index in props)
         {
@@ -32,6 +33,7 @@ class Control_Base extends Component {
             error: '',
             value: this.value,
             meter: false,
+            focused: false,
         };
     }
 

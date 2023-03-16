@@ -9,7 +9,7 @@ class Window_Register extends Component {
 
         this.id = "registration";
         this.name = "Registration Form";
-        this.height = "600px";
+        this.height = "620px";
         this.width = "1000px";
         this.noPadding = true;
         this.closeFunction = function (){

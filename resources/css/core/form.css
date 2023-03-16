@@ -2,3 +2,26 @@
     width: 100%;
     height: 20px;
 }
+
+.form-core-footer {
+    width: 100%;
+    height: 38px;
+}
+
+.form-core-message {
+    padding-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.form-core-loader {
+    color:#fff;
+    user-select: none;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

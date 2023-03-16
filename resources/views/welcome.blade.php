@@ -23,7 +23,7 @@
 <div id="page_container" class="page-container">
 
     <!-- React root DOM -->
-    <div id="page_login" class="h-100">
+    <div id="page" class="h-100">
     </div>
 
 </div>
